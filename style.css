@@ -1,0 +1,61 @@
+* {
+    box-sizing: border-box;
+} 
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    width: 500px;
+    height: 500px;
+}
+
+.title {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.input-container {
+    display: flex;
+    height: 40px;
+    margin-bottom: 30px;
+}
+
+#input {
+    flex: 1;
+    padding-left: 8px;
+}
+
+#input, #date {
+    margin-right: 10px;
+    height: 100%;
+}
+
+#add {
+    height: 100%;
+    width: 80px;
+}
+
+.element-container {
+    display: grid;
+    grid-template-columns: 1fr 109.33px 80px;
+    align-items: center;
+    height: 40px;
+    margin-top: 10px;
+}
+
+.to-do-list-element {
+    padding: 0 10px;
+}
+
+.to-do-list-date {
+    padding: 0 10px;
+}
+
+.remove-button {
+    height: 100%;
+}
