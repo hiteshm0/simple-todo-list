@@ -8,13 +8,24 @@
 </head>
 <body class="grainy-bg">
 	<div class="container">
-		<div class="title">To Do List</div>
+		<div class="header">
+			<div class="title">To Do List</div>
+			<div class="header-right-container">
+				<div class="header-left">
+				<div class="toggle-container">
+					<button class="toggle-button active" id="inbox-toggle">Inbox</button>
+					<button class="toggle-button" id="today-toggle">Today</button>
+				</div>
+				</div>
+				<button class="profile-button" id="profile">Profile</button>
+			</div>
+		</div>
 		<div class="input-container">
 			<input type="text" id="input" placeholder="Enter your task here">
 			<input type="date" id="date">
 			<button id="add">Add</button>
 		</div>
-		<div class="js-to-do-list-container">
+		<div class="js-to-do-list-container"></div>
 
 	</div>
 
