@@ -2,6 +2,15 @@ let toDoList = JSON.parse(localStorage.getItem('toDoList')) || [];
 let currentView = 'inbox'; // Default view is 'inbox' (all tasks)
 let editingIndex = -1; // Track which task is being edited
 
+// Initialize toDoList with completed property if not already present
+toDoList = toDoList.map(item => {
+    if (typeof item.completed === 'undefined') {
+        return {...item, completed: false};
+    }
+    return item;
+});
+localStorage.setItem('toDoList', JSON.stringify(toDoList));
+
 document.getElementById('add').onclick = function() {
     addToDo();
 };
@@ -47,7 +56,7 @@ function addToDo() {
     if (editingIndex >= 0) {
         // Update existing task
         if (task.trim() !== '') {
-            toDoList[editingIndex] = { task, date };
+            toDoList[editingIndex] = { task, date, completed: toDoList[editingIndex].completed };
             localStorage.setItem('toDoList', JSON.stringify(toDoList));
             editingIndex = -1;
             document.getElementById('add').textContent = 'Add';
@@ -55,7 +64,7 @@ function addToDo() {
     } else {
         // Add new task
         if (task.trim() !== '') {
-            toDoList.push({ task, date });
+            toDoList.push({ task, date, completed: false });
             localStorage.setItem('toDoList', JSON.stringify(toDoList));
         }
     }
@@ -82,15 +91,25 @@ function displayList() {
     
     for (let i = 0; i < tasksToDisplay.length; i++) {
         const taskIndex = toDoList.indexOf(tasksToDisplay[i]);
+        const taskCompleted = toDoList[taskIndex].completed;
+        const taskClass = taskCompleted ? 'completed-task' : '';
+        const buttonClass = taskCompleted ? 'delete-button' : 'edit-button';
+        const buttonText = taskCompleted ? 'Delete' : 'Edit';
+        const buttonAction = taskCompleted ? 
+            `deleteTask(${taskIndex})` : 
+            `editTask(${taskIndex})`;
+        
         document.getElementsByClassName('js-to-do-list-container')[0].innerHTML += 
         `
         <div class="element-container">
             <div class="to-do-list-element">
-                <input type="checkbox" class="task-checkbox" onclick="completeTask(${taskIndex})">
-                <span>${tasksToDisplay[i].task}</span>
+                <input type="checkbox" class="task-checkbox" 
+                    ${taskCompleted ? 'checked' : ''} 
+                    onclick="toggleTaskCompletion(${taskIndex})">
+                <span class="${taskClass}">${tasksToDisplay[i].task}</span>
             </div>
             <div class="to-do-list-date">${tasksToDisplay[i].date}</div>
-            <button class="edit-button" onclick="editTask(${taskIndex})">Edit</button>
+            <button class="${buttonClass}" onclick="${buttonAction}">${buttonText}</button>
         </div>
         `;
     }
@@ -109,14 +128,27 @@ function editTask(i) {
     document.getElementById('input').focus();
 }
 
-function completeTask(i) {
-    // Remove the task when checkbox is clicked
+function toggleTaskCompletion(i) {
+    // Toggle the completed status instead of removing
+    toDoList[i].completed = !toDoList[i].completed;
+    localStorage.setItem('toDoList', JSON.stringify(toDoList));
+    displayList();
+}
+
+function deleteTask(i) {
+    // Remove the task when delete button is clicked
     toDoList.splice(i, 1);
     localStorage.setItem('toDoList', JSON.stringify(toDoList));
     displayList();
 }
 
 // Keeping this for compatibility but no longer used in UI
+function completeTask(i) {
+    toDoList.splice(i, 1);
+    localStorage.setItem('toDoList', JSON.stringify(toDoList));
+    displayList();
+}
+
 function removeElement(i) {
     toDoList.splice(i, 1);
     localStorage.setItem('toDoList', JSON.stringify(toDoList));
