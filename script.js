@@ -137,13 +137,6 @@ function deleteTask(i) {
     displayList();
 }
 
-// Keeping this for compatibility but no longer used in UI
-function completeTask(i) {
-    toDoList.splice(i, 1);
-    localStorage.setItem('toDoList', JSON.stringify(toDoList));
-    displayList();
-}
-
 function removeElement(i) {
     toDoList.splice(i, 1);
     localStorage.setItem('toDoList', JSON.stringify(toDoList));
