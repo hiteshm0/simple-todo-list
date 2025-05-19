@@ -44,11 +44,6 @@ function setActiveToggle(view) {
     document.getElementById(`${view}-toggle`).classList.add('active');
 }
 
-/* Profile button click event (for frontend only)
-document.getElementById('profile').addEventListener('click', function() {
-    alert('Profile button clicked! This would show user profile information.');
-}); */
-
 function addToDo() {
     let task = document.getElementById('input').value;
     let date = document.getElementById('date').value;
@@ -81,9 +76,9 @@ function displayList() {
     let tasksToDisplay = toDoList;
     
     if (currentView === 'today') {
-        // Get today's date in YYYY-MM-DD format
+        // Get today's date
         const today = new Date();
-        const todayString = today.toISOString().split('T')[0]; // Format: YYYY-MM-DD
+        const todayString = today.toISOString().split('T')[0];
         
         // Filter tasks that have today's date
         tasksToDisplay = toDoList.filter(task => task.date === todayString);
